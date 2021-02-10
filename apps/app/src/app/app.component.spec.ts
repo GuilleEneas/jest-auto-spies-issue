@@ -1,31 +1,35 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { OneService } from './one.service';
+
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-    }).compileComponents();
+  let componentUnderTest: AppComponent;
+  let oneServiceSpy: Spy<OneService>;
+
+  let actualResult: any;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        AppComponent,
+        provideAutoSpy(OneService, { gettersToSpyOn: ['myGetter'] }),
+      ],
+    });
+
+    componentUnderTest = TestBed.inject(AppComponent);
+    oneServiceSpy = TestBed.inject<any>(OneService);
+
+    actualResult = undefined;
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  it('test getter', () => {
+    const fakeResult = { fake: 'result' };
+    oneServiceSpy.accessorSpies.getters.myGetter.mockReturnValue(fakeResult);
 
-  it(`should have as title 'app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('app');
-  });
+    actualResult = componentUnderTest.testGetter();
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to app!'
-    );
+    expect(actualResult).toStrictEqual(fakeResult);
   });
 });

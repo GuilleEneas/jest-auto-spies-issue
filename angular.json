@@ -1,7 +1,8 @@
 {
   "version": 1,
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "d6006abd-31a5-4bd0-9dc0-313191825068"
   },
   "schematics": {
     "@nrwl/angular": {
@@ -47,8 +48,13 @@
             "polyfills": "apps/app/src/polyfills.ts",
             "tsConfig": "apps/app/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/app/src/favicon.ico", "apps/app/src/assets"],
-            "styles": ["apps/app/src/styles.scss"],
+            "assets": [
+              "apps/app/src/favicon.ico",
+              "apps/app/src/assets"
+            ],
+            "styles": [
+              "apps/app/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -109,7 +115,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/app"],
+          "outputs": [
+            "coverage/apps/app"
+          ],
           "options": {
             "jestConfig": "apps/app/jest.config.js",
             "passWithNoTests": true
@@ -138,7 +146,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/app-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
